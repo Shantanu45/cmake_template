@@ -19,11 +19,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Set the project name and language
 project(
-  myproject
+  cmake_template_project
   VERSION 0.0.2
   DESCRIPTION ""
   HOMEPAGE_URL "%%myurl%%"
   LANGUAGES CXX C)
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(cmake/PreventInSourceBuilds.cmake)
 include(cmake/Emscripten.cmake)
@@ -101,7 +103,7 @@ if(MSVC)
 endif()
 
 # set the startup project for the "play" button in MSVC
-set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT intro)
+set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT dsa)
 
 if(CMAKE_SKIP_INSTALL_RULES)
   return()
@@ -113,7 +115,7 @@ include(cmake/PackageProject.cmake)
 # we know we want to ship
 myproject_package_project(
   TARGETS
-  intro
+  main
   myproject_options
   myproject_warnings
   # FIXME: this does not work! CK

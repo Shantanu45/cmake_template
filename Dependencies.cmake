@@ -58,18 +58,6 @@ function(myproject_setup_dependencies)
       YES)
   endif()
 
-  if(NOT TARGET ftxui::screen)
-    cpmaddpackage(
-      NAME
-      FTXUI
-      VERSION
-      6.1.9
-      GITHUB_REPOSITORY
-      "ArthurSonzogni/FTXUI"
-      SYSTEM
-      YES)
-  endif()
-
   if(NOT TARGET tools::tools)
     cpmaddpackage(
       NAME
@@ -79,5 +67,16 @@ function(myproject_setup_dependencies)
       GIT_TAG
       "main")
   endif()
+
+  # Group all third-party targets into a single IDE filter
+  foreach(_target
+      fmt spdlog spdlog_header_only
+      Catch2 Catch2WithMain
+      CLI11
+      tools)
+    if(TARGET ${_target})
+      set_target_properties(${_target} PROPERTIES FOLDER "thirdparty")
+    endif()
+  endforeach()
 
 endfunction()

@@ -1,3 +1,5 @@
+docs/output/
+
 # Build directories and binary files
 build/
 out/
