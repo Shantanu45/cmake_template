@@ -1,71 +1,84 @@
 # cmake_template
 
-[![ci](https://github.com/cpp-best-practices/cmake_template/actions/workflows/ci.yml/badge.svg)](https://github.com/cpp-best-practices/cmake_template/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/cpp-best-practices/cmake_template/branch/main/graph/badge.svg)](https://codecov.io/gh/cpp-best-practices/cmake_template)
-[![CodeQL](https://github.com/cpp-best-practices/cmake_template/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/cpp-best-practices/cmake_template/actions/workflows/codeql-analysis.yml)
+`cmake_template` is a modern C++ CMake project template. It is intentionally small at
+the application layer and more complete at the build-system layer, so it can be
+used as a starting point for a real executable project.
 
-## About cmake_template
+## What is included
 
-This is a C++ Best Practices GitHub template for getting up and running with C++ quickly.
+- CMake presets for MSVC and clang-cl on Windows, and GCC/Clang on Unix-like systems.
+- CPM-based third-party dependency setup.
+- Interface targets for project warnings and project options.
+- Optional hardening, sanitizers, IPO/LTO, unity builds, precompiled headers, ccache,
+  clang-tidy, cppcheck, coverage, and fuzz testing.
+- A small CLI executable using CLI11, fmt, and spdlog.
+- Catch2 unit tests and CTest smoke tests for `--help` and `--version`.
+- Optional WebAssembly support for Emscripten builds.
 
-By default (when building as the top-level project)
+## Requirements
 
- * Address Sanitizer and Undefined Behavior Sanitizer enabled where possible
- * Warnings as errors
- * clang-tidy and cppcheck static analysis
- * CPM for dependencies
+- CMake 3.29 or newer.
+- Ninja, or another CMake generator if you customize the presets.
+- A C++ compiler with C++23 support.
 
-It includes
+## Configure and build
 
- * a basic CLI example
- * examples for fuzz, unit, and constexpr testing
- * large GitHub action testing matrix
- * WebAssembly build support with automatic GitHub Pages deployment
+List the available presets:
 
-**Live Demo:** If you enable GitHub Pages in your project created from this template, you'll have a working example like this:
-- Main: [https://cpp-best-practices.github.io/cmake_template/](https://cpp-best-practices.github.io/cmake_template/)
-- Develop: [https://cpp-best-practices.github.io/cmake_template/develop/](https://cpp-best-practices.github.io/cmake_template/develop/)
+```sh
+cmake --list-presets
+```
 
-The `main` branch deploys to the root, `develop` to `/develop/`, and tags to `/tagname/`.
+Configure and build on Windows with MSVC:
 
-It requires
+```sh
+cmake --preset windows-msvc-debug
+cmake --build --preset windows-msvc-debug
+```
 
- * cmake
- * a compiler
+Configure and build on Windows with clang-cl:
 
+```sh
+cmake --preset windows-clang-debug
+cmake --build --preset windows-clang-debug
+```
 
-This project gets you started with a simple example of using FTXUI, which happens to also be a game.
+On Linux or macOS, use one of the Unix-like presets:
 
+```sh
+cmake --preset unixlike-clang-debug
+cmake --build --preset unixlike-clang-debug
+```
 
-## Getting Started
+## Test
 
-### Use the GitHub template
-First, click the green `Use this template` button near the top of this page.
-This will take you to GitHub's ['Generate Repository'](https://github.com/cpp-best-practices/cmake_template/generate)
-page.
-Fill in a repository name and short description, and click 'Create repository from template'.
-This will allow you to create a new repository in your GitHub account,
-prepopulated with the contents of this project.
+```sh
+ctest --preset test-windows-msvc-debug
+```
 
-After creating the project please wait until the cleanup workflow has finished 
-setting up your project and committed the changes.
+or run CTest directly from a build directory:
 
-Now you can clone the project locally and get to work!
+```sh
+ctest --test-dir out/build/windows-msvc-debug --output-on-failure
+```
 
-    git clone https://github.com/<user>/<your_new_repo>.git
+## Project layout
 
-## More Details
+- `src/` contains the executable target.
+- `include/` contains public example headers.
+- `test/` contains Catch2 tests.
+- `fuzz_test/` contains a libFuzzer target.
+- `configured_files/` contains generated build metadata headers.
+- `cmake/` contains reusable CMake helper modules.
 
- * [Dependency Setup](README_dependencies.md)
- * [Building Details](README_building.md)
- * [Docker](README_docker.md)
+## Renaming the template
 
-## Testing
+For a new project, update these identifiers first:
 
-See [Catch2 tutorial](https://github.com/catchorg/Catch2/blob/master/docs/tutorial.md)
+- The `project(...)` name in `CMakeLists.txt`.
+- The include namespace/path under `include/`.
+- The `myproject_*` CMake option prefix if you want project-specific cache options.
+- `.github/constants.env` if you keep the template cleanup workflow.
 
-## Fuzz testing
-
-See [libFuzzer Tutorial](https://github.com/google/fuzzing/blob/master/tutorial/libFuzzerTutorial.md)
-
-
+The executable target is derived from `${PROJECT_NAME}`, so renaming the CMake
+project also renames the built application and CLI smoke tests.

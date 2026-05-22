@@ -8,7 +8,7 @@ function(myproject_setup_dependencies)
   # For each dependency, see if it's
   # already been provided to us by a parent project
 
-  if(NOT TARGET fmtlib::fmtlib)
+  if(NOT TARGET fmt::fmt)
     cpmaddpackage(
       NAME
       fmt

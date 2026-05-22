@@ -2,7 +2,7 @@
     "version": 3,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 21,
+        "minor": 29,
         "patch": 0
     },
     "configurePresets": [
@@ -33,8 +33,8 @@
                 "strategy": "external"
             },
             "cacheVariables": {
-                "ENABLE_CPPCHECK_DEFAULT": "FALSE",
-                "ENABLE_CLANG_TIDY_DEFAULT": "FALSE"
+                "myproject_ENABLE_CPPCHECK": "FALSE",
+                "myproject_ENABLE_CLANG_TIDY": "FALSE"
             }
         },
         {
@@ -153,6 +153,48 @@
                 "CMAKE_CXX_COMPILER": "clang++",
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo"
             }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "windows-msvc-debug",
+            "displayName": "msvc Debug",
+            "configurePreset": "windows-msvc-debug"
+        },
+        {
+            "name": "windows-msvc-release",
+            "displayName": "msvc Release",
+            "configurePreset": "windows-msvc-release"
+        },
+        {
+            "name": "windows-clang-debug",
+            "displayName": "clang Debug",
+            "configurePreset": "windows-clang-debug"
+        },
+        {
+            "name": "windows-clang-release",
+            "displayName": "clang Release",
+            "configurePreset": "windows-clang-release"
+        },
+        {
+            "name": "unixlike-gcc-debug",
+            "displayName": "gcc Debug",
+            "configurePreset": "unixlike-gcc-debug"
+        },
+        {
+            "name": "unixlike-gcc-release",
+            "displayName": "gcc Release",
+            "configurePreset": "unixlike-gcc-release"
+        },
+        {
+            "name": "unixlike-clang-debug",
+            "displayName": "clang Debug",
+            "configurePreset": "unixlike-clang-debug"
+        },
+        {
+            "name": "unixlike-clang-release",
+            "displayName": "clang Release",
+            "configurePreset": "unixlike-clang-release"
         }
     ],
     "testPresets": [

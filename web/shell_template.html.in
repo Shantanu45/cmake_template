@@ -78,18 +78,18 @@
 
             <strong>Conversion Rules:</strong>
             <ul>
-                <li>• Single-character params → short flags: <code>?v</code> → <code>-v</code></li>
-                <li>• Multi-character params → long flags: <code>?version</code> → <code>--version</code></li>
-                <li>• Params with values: <code>?file=test.txt</code> → <code>--file test.txt</code></li>
-                <li>• Multiple params: <code>?v&help</code> → <code>-v --help</code></li>
+                <li>Single-character params become short flags: <code>?v</code> becomes <code>-v</code></li>
+                <li>Multi-character params become long flags: <code>?version</code> becomes <code>--version</code></li>
+                <li>Params with values become flag/value pairs: <code>?file=test.txt</code> becomes <code>--file test.txt</code></li>
+                <li>Multiple params are preserved: <code>?v&help</code> becomes <code>-v --help</code></li>
             </ul>
 
             <strong>Examples:</strong>
             <ul>
-                <li><code>intro.html?version</code></li>
-                <li><code>intro.html?h</code></li>
-                <li><code>intro.html?file=data.txt</code></li>
-                <li><code>intro.html?verbose&config=settings.json</code></li>
+                <li><code>@TARGET_NAME@.html?version</code></li>
+                <li><code>@TARGET_NAME@.html?h</code></li>
+                <li><code>@TARGET_NAME@.html?file=data.txt</code></li>
+                <li><code>@TARGET_NAME@.html?verbose&config=settings.json</code></li>
             </ul>
         </section>
     </main>
@@ -255,7 +255,7 @@
         Module.postRun.push(function() {
             document.getElementById('loading').classList.add('hidden');
 
-            // Set up resize observer for FTXUI's resize callback
+            // Set up resize observer for applications that expose a terminal resize callback.
             if (Module._ftxui_on_resize) {
                 var resizeObserver = new ResizeObserver(function() {
                     fitAddon.fit();

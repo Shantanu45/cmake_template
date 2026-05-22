@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.29)
 
 # Disable modules support, this is broken with clang-tidy at the moment
-cmake_policy(SET CMP0155 OLD) 
+cmake_policy(SET CMP0155 OLD)
 
 # This template attempts to be "fetch_content"-able
 # so that it works well with tools like CPM or other
@@ -19,10 +19,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Set the project name and language
 project(
-  cmake_template_project
+  cmake_template
   VERSION 0.0.2
-  DESCRIPTION ""
-  HOMEPAGE_URL "%%myurl%%"
+  DESCRIPTION "A modern CMake C++ project template"
   LANGUAGES CXX C)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -80,7 +79,6 @@ endif()
 include(CTest)
 
 if(BUILD_TESTING)
-  message(AUTHOR_WARNING "Building Tests. Be sure to check out test/constexpr_tests.cpp for constexpr testing")
   add_subdirectory(test)
 endif()
 
@@ -103,9 +101,14 @@ if(MSVC)
 endif()
 
 # set the startup project for the "play" button in MSVC
-set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT dsa)
+set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
 if(CMAKE_SKIP_INSTALL_RULES)
+  return()
+endif()
+
+option(myproject_ENABLE_INSTALL "Enable install and package rules" OFF)
+if(NOT myproject_ENABLE_INSTALL)
   return()
 endif()
 
@@ -115,7 +118,7 @@ include(cmake/PackageProject.cmake)
 # we know we want to ship
 myproject_package_project(
   TARGETS
-  main
+  ${PROJECT_NAME}
   myproject_options
   myproject_warnings
   # FIXME: this does not work! CK

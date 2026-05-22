@@ -1,8 +1,8 @@
-add_executable(main main.cpp
+add_executable(${PROJECT_NAME} main.cpp
 )
 
 target_link_libraries(
-  main
+  ${PROJECT_NAME}
   PRIVATE myproject::myproject_options
           myproject::myproject_warnings
           CLI11::CLI11
@@ -10,15 +10,17 @@ target_link_libraries(
           spdlog::spdlog)
 
 
-myproject_configure_linker(main)
+myproject_configure_linker(${PROJECT_NAME})
 
-target_include_directories(main PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include"
-                                    "${CMAKE_SOURCE_DIR}/src" )
+target_include_directories(${PROJECT_NAME} PRIVATE
+  "${CMAKE_BINARY_DIR}/configured_files/include"
+  "${CMAKE_SOURCE_DIR}/include"
+  "${CMAKE_SOURCE_DIR}/src")
 
 # Apply WASM-specific configuration
 if(EMSCRIPTEN)
-  myproject_configure_wasm_target(main
-    TITLE "main Framework"
-    DESCRIPTION "main Framework"
+  myproject_configure_wasm_target(${PROJECT_NAME}
+    TITLE "${PROJECT_NAME}"
+    DESCRIPTION "${PROJECT_DESCRIPTION}"
   )
 endif()
